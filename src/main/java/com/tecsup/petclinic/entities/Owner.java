@@ -29,4 +29,12 @@ public class Owner {
 
     @Column(name = "telephone")
     private String telephone;
+
+    public Owner(String firstName, String lastName, String address, String city, String telephone) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.address = address;
+        this.city = city;
+        this.telephone = telephone;
+    }
 }
