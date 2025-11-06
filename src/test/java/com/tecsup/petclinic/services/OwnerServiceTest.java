@@ -16,9 +16,6 @@ public class OwnerServiceTest {
     @Autowired
     private OwnerService ownerService;
 
-    /**
-     * Crear un nuevo dueño
-     */
     @Test
     public void testCreateOwner() {
 
@@ -31,16 +28,13 @@ public class OwnerServiceTest {
         Owner owner = new Owner(FIRST_NAME, LAST_NAME, ADDRESS, CITY, TELEPHONE);
 
         Owner newOwner = ownerService.create(owner);
-        log.info("✅ Owner creado: " + newOwner);
+        log.info("Owner creado: " + newOwner);
 
         assertNotNull(newOwner.getId());
         assertEquals(FIRST_NAME, newOwner.getFirstName());
         assertEquals(CITY, newOwner.getCity());
     }
 
-    /**
-     * Buscar un dueño por ID
-     */
     @Test
     public void testFindOwnerById() {
 
@@ -51,16 +45,14 @@ public class OwnerServiceTest {
         try {
             owner = ownerService.findById(ID);
         } catch (OwnerNotFoundException e) {
-            fail("❌ " + e.getMessage());
+            fail("" + e.getMessage());
         }
 
-        log.info("🔍 Owner encontrado: " + owner);
+        log.info("Owner encontrado: " + owner);
         assertEquals(FIRST_NAME, owner.getFirstName());
     }
 
-    /**
-     * Actualizar los datos de un dueño
-     */
+
     @Test
     public void testUpdateOwner() {
 
@@ -73,13 +65,13 @@ public class OwnerServiceTest {
         Owner owner = new Owner(FIRST_NAME, LAST_NAME, ADDRESS, CITY, TELEPHONE);
         Owner newOwner = ownerService.create(owner);
 
-        log.info("📝 Owner antes de actualizar: " + newOwner);
+        log.info("Owner antes de actualizar: " + newOwner);
 
         String NEW_CITY = "Cusco";
         newOwner.setCity(NEW_CITY);
 
         Owner updatedOwner = ownerService.update(newOwner);
-        log.info("✅ Owner actualizado: " + updatedOwner);
+        log.info("Owner actualizado: " + updatedOwner);
 
         assertEquals(NEW_CITY, updatedOwner.getCity());
     }
@@ -96,20 +88,20 @@ public class OwnerServiceTest {
         Owner owner = new Owner(FIRST_NAME, LAST_NAME, ADDRESS, CITY, TELEPHONE);
         Owner newOwner = ownerService.create(owner);
 
-        log.info("🗑️ Owner creado para eliminar: " + newOwner);
+        log.info("Owner creado para eliminar: " + newOwner);
 
         long ID = newOwner.getId();
 
         try {
             ownerService.delete(ID);
         } catch (OwnerNotFoundException e) {
-            fail("❌ " + e.getMessage());
+            fail("" + e.getMessage());
         }
 
         assertThrows(OwnerNotFoundException.class, () -> {
             ownerService.findById(ID);
         });
 
-        log.info("✅ Owner eliminado correctamente con ID = " + ID);
+        log.info("Owner eliminado correctamente con ID = " + ID);
     }
 }
