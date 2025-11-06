@@ -13,16 +13,10 @@ public class OwnerService {
     @Autowired
     private OwnerRepository ownerRepository;
 
-    /**
-     * Crear un nuevo dueño
-     */
     public Owner create(Owner owner) {
         return ownerRepository.save(owner);
     }
 
-    /**
-     * Buscar un dueño por ID
-     */
     public Owner findById(long id) throws OwnerNotFoundException {
         Optional<Owner> optional = ownerRepository.findById(id);
         if (optional.isEmpty()) {
@@ -31,16 +25,10 @@ public class OwnerService {
         return optional.get();
     }
 
-    /**
-     * Actualizar un dueño existente
-     */
     public Owner update(Owner owner) {
         return ownerRepository.save(owner);
     }
 
-    /**
-     * Eliminar un dueño por ID
-     */
     public void delete(long id) throws OwnerNotFoundException {
         if (!ownerRepository.existsById(id)) {
             throw new OwnerNotFoundException("Owner con ID " + id + " no existe para eliminar");
