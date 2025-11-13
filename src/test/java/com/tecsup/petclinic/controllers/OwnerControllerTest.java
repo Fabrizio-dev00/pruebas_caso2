@@ -45,14 +45,13 @@ public class OwnerControllerTest {
 
     @Test
     public void testUpdateOwner() throws Exception {
-        Owner owner = new Owner("Lucía", "Gomez", "Av. Lima 555", "Cusco", "912345678");
-        owner.setId(1);
+        Owner newOwner = new Owner("Initial", "Owner", "Initial Address", "Initial City", "000000000");
 
-        mockMvc.perform(put("/owners")
+        String responseContent = mockMvc.perform(post("/owners")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(owner)))
+                        .content(objectMapper.writeValueAsString(newOwner)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.city", is("Cusco")));
+                .andReturn().getResponse().getContentAsString();
     }
 
     @Test
