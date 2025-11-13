@@ -27,7 +27,9 @@ public class OwnerController {
     @PostMapping
     public ResponseEntity<Owner> createOwner(@RequestBody Owner owner) {
         Owner newOwner = ownerService.create(owner);
-        return ResponseEntity.ok(newOwner);
+        return ResponseEntity
+                .created(null)
+                .body(newOwner);
     }
 
     @PutMapping("/{id}")

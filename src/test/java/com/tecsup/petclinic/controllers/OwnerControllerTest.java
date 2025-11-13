@@ -45,13 +45,25 @@ public class OwnerControllerTest {
 
     @Test
     public void testUpdateOwner() throws Exception {
-        Owner newOwner = new Owner("Initial", "Owner", "Initial Address", "Initial City", "000000000");
+        Owner initialOwner = new Owner("Initial", "Owner", "Initial Address", "Initial City", "000000000");
 
         String responseContent = mockMvc.perform(post("/owners")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(newOwner)))
-                .andExpect(status().isOk())
+                        .content(objectMapper.writeValueAsString(initialOwner)))
+                .andExpect(status().isCreated())
                 .andReturn().getResponse().getContentAsString();
+
+        Long createdId = objectMapper.readTree(responseContent).get("id").asLong();
+
+        Owner ownerToUpdate = new Owner("Lucía", "Gomez", "Av. Lima 555", "Cusco", "912345678");
+        ownerToUpdate.setId(Math.toIntExact(createdId));
+
+        mockMvc.perform(put("/owners/{id}", createdId)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(ownerToUpdate)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.city", is("Cusco")))
+                .andExpect(jsonPath("$.firstName", is("Lucía")));
     }
 
     @Test
